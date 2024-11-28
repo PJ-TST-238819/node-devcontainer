@@ -10,11 +10,11 @@ services:
     volumes:
       - ${HOME}/.ssh:/home/${USERNAME:-dev}/.ssh
       - ${HOME}/.git:/home/${USERNAME:-dev}/.git
-      - .:/workspace
+      - ..:/workspace
       - /workspace/node_modules
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: development
-    command: npm start
+    tty: true
     container_name: workspace

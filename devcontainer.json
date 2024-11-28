@@ -13,8 +13,7 @@
       ]
     }
   },
-  "postCreateCommand": "npm install",
-  "remoteUser": "node",
+  "remoteUser": "dev",
   "containerEnv": {
     "NODE_ENV": "development"
   },
