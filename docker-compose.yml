@@ -8,8 +8,8 @@ services:
         GID: ${GID:-1000}
         USERNAME: ${USERNAME:-dev}
     volumes:
-      - ${HOME}/.ssh:/home/${USERNAME:-dev}/.ssh
-      - ${HOME}/.git:/home/${USERNAME:-dev}/.git
+      - /home/${USER}/.ssh:/home/${USERNAME:-dev}/.ssh
+      - /home/${USER}/.git:/home/${USERNAME:-dev}/.git
       - ..:/workspace
       - /workspace/node_modules
     ports:

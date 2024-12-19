@@ -17,10 +17,13 @@ RUN apt-get update && apt-get install -y \
     sudo \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Logic to rename or create the user and add to sudo group
-RUN if [ "$(id -u node)" = "$UID" ] && [ "$(id -g node)" = "$GID" ]; then \
-        usermod -l $USERNAME -d /home/$USERNAME -m node && groupmod -n $USERNAME node; \
+# Logic to check if a user with the specified UID and GID exists, and create/rename accordingly
+RUN if getent passwd $UID > /dev/null && getent group $GID > /dev/null; then \
+        # If user and group exist, rename the user
+        usermod -l $USERNAME -d /home/$USERNAME -m $(getent passwd $UID | cut -d: -f1) && \
+        groupmod -n $USERNAME $(getent group $GID | cut -d: -f1); \
     else \
+        # If user and group don't exist, create a new user
         groupadd -g $GID $USERNAME && useradd -m -u $UID -g $GID $USERNAME; \
     fi && \
     mkdir -p /workspace && chown -R $UID:$GID /workspace && \
